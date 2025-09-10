@@ -1,7 +1,107 @@
-着せ替えの魔法   ニューシング公開！
-このトラックは、遊び心と活気に満ちたインストゥルメンタルアレンジが特徴です。
-明るいアコースティックギターがメロディーをリードし、軽やかなシンセサイザーとグロッケンシュピールが幻想的な雰囲気を醸し出します。
-柔らかなベースラインと穏やかなパーカッションが奏でるリズムセクションは、押し付けがましくなく、アップビートな雰囲気を醸し出します。
-この曲は、活気に満ちた楽しい雰囲気を醸し出しており、創造性と変革のシーンにぴったりです。
 
-for 手羽先
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Apple Music風プレイヤー</title>
+	<style>
+		body {
+			background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+			font-family: 'Segoe UI', 'Arial', sans-serif;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+		.music-player {
+			background: rgba(255,255,255,0.9);
+			border-radius: 32px;
+			box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+			padding: 40px 32px;
+			width: 350px;
+			text-align: center;
+		}
+		.girl-img {
+			width: 180px;
+			height: 180px;
+			border-radius: 50%;
+			object-fit: cover;
+			box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+			margin-bottom: 24px;
+			animation: dance 1.5s infinite alternate ease-in-out;
+		}
+		@keyframes dance {
+			0% { transform: translateY(0) scale(1); }
+			50% { transform: translateY(-16px) scale(1.05); }
+			100% { transform: translateY(0) scale(1); }
+		}
+		.track-title {
+			font-size: 1.3em;
+			font-weight: bold;
+			margin-bottom: 8px;
+		}
+		.controls {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 16px;
+			margin: 18px 0 10px 0;
+		}
+		.play-btn, .pause-btn {
+			background: #fa2a55;
+			color: #fff;
+			border: none;
+			border-radius: 50%;
+			width: 48px;
+			height: 48px;
+			font-size: 1.5em;
+			cursor: pointer;
+			box-shadow: 0 2px 8px rgba(250,42,85,0.15);
+			transition: background 0.2s;
+		}
+		.play-btn:hover, .pause-btn:hover {
+			background: #d81b4b;
+		}
+		.volume {
+			margin-top: 18px;
+		}
+		.volume input[type=range] {
+			width: 80%;
+		}
+	</style>
+</head>
+<body>
+	<div class="music-player">
+		<img src="Gemini_Generated_Image_7ot7p47ot7p47ot7.png" alt="女の子" class="girl-img" />
+		<div class="track-title">着せ替えの魔法</div>
+		<audio id="audio" src="着せ替えの魔法.mp3"></audio>
+		<div class="controls">
+			<button class="play-btn" id="playBtn">▶</button>
+			<button class="pause-btn" id="pauseBtn">⏸</button>
+		</div>
+		<div class="volume">
+			<label for="volumeRange">音量</label><br>
+			<input type="range" id="volumeRange" min="0" max="1" step="0.01" value="0.5">
+		</div>
+	</div>
+	<script>
+		const audio = document.getElementById('audio');
+		const playBtn = document.getElementById('playBtn');
+		const pauseBtn = document.getElementById('pauseBtn');
+		const volumeRange = document.getElementById('volumeRange');
+
+		playBtn.onclick = () => {
+			audio.play();
+		};
+		pauseBtn.onclick = () => {
+			audio.pause();
+		};
+		volumeRange.oninput = (e) => {
+			audio.volume = e.target.value;
+		};
+	</script>
+</body>
+</html>
