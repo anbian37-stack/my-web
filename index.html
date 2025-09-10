@@ -79,26 +79,66 @@
 		<div class="track-title">着せ替えの魔法</div>
 		<audio id="audio" src="着せ替えの魔法.mp3"></audio>
 		<div class="controls">
-			<button class="play-btn" id="playBtn">▶</button>
-			<button class="pause-btn" id="pauseBtn">⏸</button>
+			<button class="play-btn" id="toggleBtn">▶</button>
 		</div>
 		<div class="volume">
 			<label for="volumeRange">音量</label><br>
 			<input type="range" id="volumeRange" min="0" max="1" step="0.01" value="0.5">
 		</div>
+		<div class="time-info">
+			<span id="currentTime">0:00</span>
+			<input type="range" id="seekBar" min="0" value="0" step="0.01" style="width:60%; vertical-align:middle;">
+			<span id="duration">0:00</span>
+		</div>
 	</div>
 	<script>
 		const audio = document.getElementById('audio');
-		const playBtn = document.getElementById('playBtn');
-		const pauseBtn = document.getElementById('pauseBtn');
+		const toggleBtn = document.getElementById('toggleBtn');
 		const volumeRange = document.getElementById('volumeRange');
+		const seekBar = document.getElementById('seekBar');
+		const currentTimeSpan = document.getElementById('currentTime');
+		const durationSpan = document.getElementById('duration');
 
-		playBtn.onclick = () => {
-			audio.play();
+		let isPlaying = false;
+
+		function formatTime(sec) {
+			sec = Math.floor(sec);
+			const m = Math.floor(sec / 60);
+			const s = sec % 60;
+			return `${m}:${s.toString().padStart(2, '0')}`;
+		}
+
+		toggleBtn.onclick = () => {
+			if (audio.paused) {
+				audio.play();
+			} else {
+				audio.pause();
+			}
 		};
-		pauseBtn.onclick = () => {
-			audio.pause();
+
+		audio.addEventListener('play', () => {
+			toggleBtn.textContent = '⏸';
+			isPlaying = true;
+		});
+		audio.addEventListener('pause', () => {
+			toggleBtn.textContent = '▶';
+			isPlaying = false;
+		});
+
+		audio.addEventListener('loadedmetadata', () => {
+			seekBar.max = audio.duration;
+			durationSpan.textContent = formatTime(audio.duration);
+		});
+
+		audio.addEventListener('timeupdate', () => {
+			seekBar.value = audio.currentTime;
+			currentTimeSpan.textContent = formatTime(audio.currentTime);
+		});
+
+		seekBar.oninput = (e) => {
+			audio.currentTime = e.target.value;
 		};
+
 		volumeRange.oninput = (e) => {
 			audio.volume = e.target.value;
 		};
